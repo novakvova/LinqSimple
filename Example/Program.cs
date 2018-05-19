@@ -12,7 +12,88 @@ namespace Example
         {
             //ArrayLinq();
             //ArrayObjectLinq();
+            //ListToLinq();
+            List<Student> students = new List<Student>
+            {
+                new Student
+                {
+                    Name="Лодочкін Іван",
+                    Group="39",
+                    MarkArg=3.5F
+                },
+                new Student
+                {
+                    Name="Лодочкін Семен",
+                    Group="28",
+                    MarkArg=3.5F
+                },
+                new Student
+                {
+                    Name="Підкаблучник Семен",
+                    Group="28",
+                    MarkArg=3.0F
+                },
+                new Student
+                {
+                    Name="Петрик Пятачкін",
+                    Group="28",
+                    MarkArg=2.0F
+                }
+            };
+            students.Add(new Student
+            {
+                Name = "Валік Семенов",
+                Group = "28",
+                MarkArg = 5.0F
+            });
+            Console.WriteLine("Вкажіть ім'я: ");
+            string strNameSearch= Console.ReadLine();
+            var query = from s in students select s;
+            //IEnumerable<Student> temp=null;
+            if (!string.IsNullOrEmpty(strNameSearch))
+            {
+                query = from s in query
+                        where s.Name.Contains(strNameSearch)
+                        select s;
+            }
+            
+            Console.WriteLine("Вкажіть групу: ");
+            string strGroupSearch = Console.ReadLine();
+            if (!string.IsNullOrEmpty(strGroupSearch))
+            {
+                query = from s in query
+                       where s.Group== strGroupSearch
+                       select s;
+            }
+            //foreach (var stud in temp)
+            //{
+            //    Console.WriteLine($"{stud.Name} {stud.Group} {stud.MarkArg}");
+            //}
+            Console.WriteLine("Вкажіть середню оцінку: ");
+            string strMarkSearch = Console.ReadLine();
+            if (!string.IsNullOrEmpty(strMarkSearch))
+            {
+                float mark = float.Parse(strMarkSearch);
+                query = from s in query
+                        where s.MarkArg == mark
+                        select s;
+            }
+            //var search
 
+            if (query.Count() > 0)
+            {
+                Console.WriteLine("Результат пошуку: ");
+                foreach (var stud in query)
+                {
+                    Console.WriteLine($"{stud.Name} {stud.Group} {stud.MarkArg}");
+                }
+            }
+            else
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Не знайдено жодного студента.");
+                Console.ForegroundColor = ConsoleColor.White;
+            }
 
         }
         static void ArrayLinq()
